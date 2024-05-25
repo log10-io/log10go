@@ -1,0 +1,14 @@
+# Feedback
+
+
+## Fields
+
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `ID`                                                                         | **string*                                                                    | :heavy_minus_sign:                                                           | The unique identifier for this feedback.                                     |
+| `CreatedAtMs`                                                                | **float64*                                                                   | :heavy_minus_sign:                                                           | The epoch this schema was created.                                           |
+| `TaskID`                                                                     | *string*                                                                     | :heavy_check_mark:                                                           | The unique identifier for the task associated with this feedback.            |
+| `JSONValues`                                                                 | [components.JSONValues](../../models/components/jsonvalues.md)               | :heavy_check_mark:                                                           | The values of the feedback. Must be valid JSON according to the task schema. |
+| `MatchedCompletionIds`                                                       | []*string*                                                                   | :heavy_check_mark:                                                           | The matched completion ids associated with this feedback.                    |
+| `Comment`                                                                    | *string*                                                                     | :heavy_check_mark:                                                           | The comment associated with this feedback.                                   |
+| `CompletionsSummary`                                                         | **string*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          |
