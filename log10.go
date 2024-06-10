@@ -152,9 +152,9 @@ func New(opts ...SDKOption) *Log10 {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.0.1",
-			GenVersion:        "2.338.1",
-			UserAgent:         "speakeasy-sdk/go 0.0.1 2.338.1 1.0.0 github.com/log10-io/log10go",
+			SDKVersion:        "0.0.2",
+			GenVersion:        "2.339.1",
+			UserAgent:         "speakeasy-sdk/go 0.0.2 2.339.1 1.0.0 github.com/log10-io/log10go",
 			Globals:           globals.Globals{},
 			Hooks:             hooks.New(),
 		},
