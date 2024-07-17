@@ -3,16 +3,20 @@ id: af921c1a-d48f-4ab5-a412-4cf4ba8a50ad
 management:
   docChecksum: 5e7cc152f137f5919734cc70b836a4d6
   docVersion: 1.0.0
-  speakeasyVersion: 1.296.1
-  generationVersion: 2.338.1
-  releaseVersion: 0.0.1
-  configChecksum: e63fe754c82a6ad123e8ccf7b0e616cd
+  speakeasyVersion: 1.337.1
+  generationVersion: 2.373.2
+  releaseVersion: 0.1.0
+  configChecksum: 54bb041d3948fb5a80cc757eac556e7b
+  repoURL: https://github.com/log10-io/log10go.git
+  installationURL: https://github.com/log10-io/log10go
 features:
   go:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.4
-    core: 3.4.10
+    core: 3.4.16
+    defaultEnabledRetries: 0.2.0
     deprecations: 2.81.1
+    envVarSecurityUsage: 0.2.0
     examples: 2.81.3
     flattening: 2.81.1
     getRequestBodies: 2.81.1
@@ -25,6 +29,7 @@ features:
     nameOverrides: 2.81.2
     nullables: 0.1.0
     responseFormat: 0.1.2
+    retries: 2.83.0
     sdkHooks: 0.1.0
     typeOverrides: 2.81.1
     unions: 2.85.8
@@ -36,6 +41,7 @@ generatedFiles:
   - log10.go
   - go.mod
   - models/sdkerrors/sdkerror.go
+  - retry/config.go
   - types/bigint.go
   - types/date.go
   - types/datetime.go
@@ -190,10 +196,13 @@ generatedFiles:
   - docs/models/components/task.md
   - docs/models/components/security.md
   - docs/sdks/log10/README.md
+  - docs/models/operations/option.md
   - docs/sdks/completions/README.md
   - docs/sdks/sessions/README.md
   - docs/sdks/feedback/README.md
   - docs/sdks/feedbacktasks/README.md
   - USAGE.md
+  - models/operations/options.go
   - .gitattributes
   - internal/hooks/hooks.go
+  - CONTRIBUTING.md

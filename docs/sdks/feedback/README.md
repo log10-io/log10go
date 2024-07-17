@@ -21,6 +21,7 @@ Fetch feedback by id.
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -28,8 +29,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
     var feedbackID string = "<value>"
 
@@ -47,11 +47,12 @@ func main() {
 
 ### Parameters
 
-| Parameter                                             | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
-| `feedbackID`                                          | *string*                                              | :heavy_check_mark:                                    | The feedback id to fetch.                             |
-| `xLog10Organization`                                  | **string*                                             | :heavy_minus_sign:                                    | N/A                                                   |
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `feedbackID`                                             | *string*                                                 | :heavy_check_mark:                                       | The feedback id to fetch.                                |
+| `xLog10Organization`                                     | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 
 ### Response
@@ -71,6 +72,7 @@ List feedback
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/operations"
 	"context"
@@ -79,8 +81,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
     var xLog10Organization *string = log10go.String("<value>")
 
@@ -103,6 +104,7 @@ func main() {
 | `ctx`                                                                     | [context.Context](https://pkg.go.dev/context#Context)                     | :heavy_check_mark:                                                        | The context to use for the request.                                       |
 | `xLog10Organization`                                                      | **string*                                                                 | :heavy_minus_sign:                                                        | N/A                                                                       |
 | `requestBody`                                                             | [*operations.ListRequestBody](../../models/operations/listrequestbody.md) | :heavy_minus_sign:                                                        | N/A                                                                       |
+| `opts`                                                                    | [][operations.Option](../../models/operations/option.md)                  | :heavy_minus_sign:                                                        | The options for this request.                                             |
 
 
 ### Response
@@ -122,6 +124,7 @@ Upload a piece of feedback
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/operations"
 	"context"
@@ -130,8 +133,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
     var requestBody operations.UploadRequestBody = operations.CreateUploadRequestBodyOne(
             operations.One{
@@ -166,6 +168,7 @@ func main() {
 | `ctx`                                                                        | [context.Context](https://pkg.go.dev/context#Context)                        | :heavy_check_mark:                                                           | The context to use for the request.                                          |
 | `requestBody`                                                                | [operations.UploadRequestBody](../../models/operations/uploadrequestbody.md) | :heavy_check_mark:                                                           | N/A                                                                          |
 | `xLog10Organization`                                                         | **string*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          |
+| `opts`                                                                       | [][operations.Option](../../models/operations/option.md)                     | :heavy_minus_sign:                                                           | The options for this request.                                                |
 
 
 ### Response
