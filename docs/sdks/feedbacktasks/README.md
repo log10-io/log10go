@@ -21,6 +21,7 @@ List feedback tasks.
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -28,8 +29,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
 
     ctx := context.Background()
@@ -45,9 +45,10 @@ func main() {
 
 ### Parameters
 
-| Parameter                                             | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 
 ### Response
@@ -67,6 +68,7 @@ Create a new task.
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"context"
@@ -75,8 +77,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
     var request *components.Task = &components.Task{
         JSONSchema: components.JSONSchema{},
@@ -97,10 +98,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                             | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
-| `request`                                             | [components.Task](../../models/components/task.md)    | :heavy_check_mark:                                    | The request object to use for the request.            |
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `request`                                                | [components.Task](../../models/components/task.md)       | :heavy_check_mark:                                       | The request object to use for the request.               |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 
 ### Response
@@ -120,6 +122,7 @@ Retrieves feedback task `taskId`.
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -127,8 +130,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
     var taskID string = "<value>"
     ctx := context.Background()
@@ -144,10 +146,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                             | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
-| `taskID`                                              | *string*                                              | :heavy_check_mark:                                    | The task id to fetch.                                 |
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `taskID`                                                 | *string*                                                 | :heavy_check_mark:                                       | The task id to fetch.                                    |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 
 ### Response

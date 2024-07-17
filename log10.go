@@ -9,6 +9,7 @@ import (
 	"github.com/log10-io/log10go/internal/hooks"
 	"github.com/log10-io/log10go/internal/utils"
 	"github.com/log10-io/log10go/models/components"
+	"github.com/log10-io/log10go/retry"
 	"net/http"
 	"time"
 )
@@ -52,8 +53,9 @@ type sdkConfiguration struct {
 	GenVersion        string
 	UserAgent         string
 	Globals           globals.Globals
-	RetryConfig       *utils.RetryConfig
+	RetryConfig       *retry.Config
 	Hooks             *hooks.Hooks
+	Timeout           *time.Duration
 }
 
 func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
@@ -136,13 +138,20 @@ func WithSecuritySource(security func(context.Context) (components.Security, err
 // WithXLog10Organization allows setting the XLog10Organization parameter for all supported operations
 func WithXLog10Organization(xLog10Organization string) SDKOption {
 	return func(sdk *Log10) {
-		sdk.sdkConfiguration.Globals.XLog10Organization = xLog10Organization
+		sdk.sdkConfiguration.Globals.XLog10Organization = &xLog10Organization
 	}
 }
 
-func WithRetryConfig(retryConfig utils.RetryConfig) SDKOption {
+func WithRetryConfig(retryConfig retry.Config) SDKOption {
 	return func(sdk *Log10) {
 		sdk.sdkConfiguration.RetryConfig = &retryConfig
+	}
+}
+
+// WithTimeout Optional request timeout applied to each operation
+func WithTimeout(timeout time.Duration) SDKOption {
+	return func(sdk *Log10) {
+		sdk.sdkConfiguration.Timeout = &timeout
 	}
 }
 
@@ -152,9 +161,9 @@ func New(opts ...SDKOption) *Log10 {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.0.1",
-			GenVersion:        "2.338.1",
-			UserAgent:         "speakeasy-sdk/go 0.0.1 2.338.1 1.0.0 github.com/log10-io/log10go",
+			SDKVersion:        "0.1.0",
+			GenVersion:        "2.373.2",
+			UserAgent:         "speakeasy-sdk/go 0.1.0 2.373.2 1.0.0 github.com/log10-io/log10go",
 			Globals:           globals.Globals{},
 			Hooks:             hooks.New(),
 		},

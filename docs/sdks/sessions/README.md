@@ -19,6 +19,7 @@ Create a session
 package main
 
 import(
+	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -26,8 +27,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-        log10go.WithXLog10Organization("<value>"),
+        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
     )
     var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
@@ -43,10 +43,11 @@ func main() {
 
 ### Parameters
 
-| Parameter                                             | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `ctx`                                                 | [context.Context](https://pkg.go.dev/context#Context) | :heavy_check_mark:                                    | The context to use for the request.                   |
-| `xLog10Organization`                                  | **string*                                             | :heavy_minus_sign:                                    | N/A                                                   |
+| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
+| `xLog10Organization`                                     | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
+| `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
 
 ### Response

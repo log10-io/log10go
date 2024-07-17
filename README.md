@@ -36,12 +36,12 @@ import (
 	"context"
 	"github.com/log10-io/log10go"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
@@ -86,18 +86,18 @@ func main() {
 <!-- Start Global Parameters [global-parameters] -->
 ## Global Parameters
 
-A parameter is configured globally. This parameter must be set on the SDK client instance itself during initialization. When configured as an option during SDK initialization, This global value will be used as the default on the operations that use it. When such operations are called, there is a place in each to override the global value, if needed.
+A parameter is configured globally. This parameter may be set on the SDK client instance itself during initialization. When configured as an option during SDK initialization, This global value will be used as the default on the operations that use it. When such operations are called, there is a place in each to override the global value, if needed.
 
 For example, you can set `X-Log10-Organization` to `"<value>"` at SDK initialization and then you do not have to pass the same value on calls to operations like `Update`. But if you want to do so you may, which will locally override the global setting. See the example code below for a demonstration.
 
 
 ### Available Globals
 
-The following global parameter is available. The required parameter must be set when you initialize the SDK client.
+The following global parameter is available.
 
 | Name | Type | Required | Description |
 | ---- | ---- |:--------:| ----------- |
-| XLog10Organization | string | ✔️ | The XLog10Organization parameter. |
+| XLog10Organization | string |  | The XLog10Organization parameter. |
 
 
 ### Example
@@ -110,12 +110,12 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	var completionID string = "<value>"
 
@@ -179,12 +179,12 @@ import (
 	"github.com/log10-io/log10go/models/components"
 	"github.com/log10-io/log10go/models/sdkerrors"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -246,13 +246,13 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
 		log10go.WithServerIndex(0),
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -302,13 +302,13 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
 		log10go.WithServerURL("https://log10.io"),
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -396,12 +396,12 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -445,6 +445,140 @@ func main() {
 
 
 <!-- End Special Types [types] -->
+
+<!-- Start Retries [retries] -->
+## Retries
+
+Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
+
+To change the default retry strategy for a single API call, simply provide a `retry.Config` object to the call by using the `WithRetries` option:
+```go
+package main
+
+import (
+	"context"
+	"github.com/log10-io/log10go"
+	"github.com/log10-io/log10go/models/components"
+	"github.com/log10-io/log10go/retry"
+	"log"
+	"models/operations"
+	"os"
+)
+
+func main() {
+	s := log10go.New(
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+	)
+	completion := components.Completion{
+		OrganizationID: "<value>",
+		Request: &components.CreateChatCompletionRequest{
+			Messages: []components.ChatCompletionRequestMessage{
+				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
+					components.ChatCompletionRequestAssistantMessage{
+						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+					},
+				),
+			},
+			Model: components.CreateModelTwo(
+				components.TwoGpt4Turbo,
+			),
+			N: log10go.Int64(1),
+			ResponseFormat: &components.ResponseFormat{
+				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
+			},
+			Temperature: log10go.Float64(1),
+			TopP:        log10go.Float64(1),
+			User:        log10go.String("user-1234"),
+		},
+	}
+
+	var xLog10Organization *string = log10go.String("<value>")
+	ctx := context.Background()
+	res, err := s.Completions.Create(ctx, completion, xLog10Organization, operations.WithRetries(
+		retry.Config{
+			Strategy: "backoff",
+			Backoff: &retry.BackoffStrategy{
+				InitialInterval: 1,
+				MaxInterval:     50,
+				Exponent:        1.1,
+				MaxElapsedTime:  100,
+			},
+			RetryConnectionErrors: false,
+		}))
+	if err != nil {
+		log.Fatal(err)
+	}
+	if res.Any != nil {
+		// handle response
+	}
+}
+
+```
+
+If you'd like to override the default retry strategy for all operations that support retries, you can use the `WithRetryConfig` option at SDK initialization:
+```go
+package main
+
+import (
+	"context"
+	"github.com/log10-io/log10go"
+	"github.com/log10-io/log10go/models/components"
+	"github.com/log10-io/log10go/retry"
+	"log"
+	"os"
+)
+
+func main() {
+	s := log10go.New(
+		log10go.WithRetryConfig(
+			retry.Config{
+				Strategy: "backoff",
+				Backoff: &retry.BackoffStrategy{
+					InitialInterval: 1,
+					MaxInterval:     50,
+					Exponent:        1.1,
+					MaxElapsedTime:  100,
+				},
+				RetryConnectionErrors: false,
+			}),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+	)
+	completion := components.Completion{
+		OrganizationID: "<value>",
+		Request: &components.CreateChatCompletionRequest{
+			Messages: []components.ChatCompletionRequestMessage{
+				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
+					components.ChatCompletionRequestAssistantMessage{
+						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+					},
+				),
+			},
+			Model: components.CreateModelTwo(
+				components.TwoGpt4Turbo,
+			),
+			N: log10go.Int64(1),
+			ResponseFormat: &components.ResponseFormat{
+				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
+			},
+			Temperature: log10go.Float64(1),
+			TopP:        log10go.Float64(1),
+			User:        log10go.String("user-1234"),
+		},
+	}
+
+	var xLog10Organization *string = log10go.String("<value>")
+	ctx := context.Background()
+	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if res.Any != nil {
+		// handle response
+	}
+}
+
+```
+<!-- End Retries [retries] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 

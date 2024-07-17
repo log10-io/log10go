@@ -6,12 +6,12 @@ import (
 	"context"
 	"github.com/log10-io/log10go"
 	"log"
+	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
-		log10go.WithXLog10Organization("<value>"),
+		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
 	)
 	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
