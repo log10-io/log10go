@@ -21,7 +21,6 @@ Create a completion
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"context"
@@ -30,7 +29,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
     completion := components.Completion{
         OrganizationID: "<value>",
@@ -54,10 +53,8 @@ func main() {
             User: log10go.String("user-1234"),
         },
     }
-
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+    res, err := s.Completions.Create(ctx, completion, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -94,7 +91,6 @@ Update completion by id.
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"context"
@@ -103,7 +99,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
     var completionID string = "<value>"
 
@@ -114,7 +110,7 @@ func main() {
                 components.CreateChatCompletionRequestMessageChatCompletionRequestFunctionMessage(
                     components.ChatCompletionRequestFunctionMessage{
                         Role: components.ChatCompletionRequestFunctionMessageRoleFunction,
-                        Content: "<value>",
+                        Content: log10go.String("<value>"),
                         Name: "<value>",
                     },
                 ),
@@ -131,10 +127,8 @@ func main() {
             User: log10go.String("user-1234"),
         },
     }
-
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Completions.Update(ctx, completionID, completion, xLog10Organization)
+    res, err := s.Completions.Update(ctx, completionID, completion, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -172,7 +166,6 @@ List ungraded completions i.e. completions that have not been associated with fe
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -180,11 +173,11 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
-    var xLog10Organization *string = log10go.String("<value>")
+
     ctx := context.Background()
-    res, err := s.Completions.ListUngraded(ctx, xLog10Organization)
+    res, err := s.Completions.ListUngraded(ctx, nil)
     if err != nil {
         log.Fatal(err)
     }

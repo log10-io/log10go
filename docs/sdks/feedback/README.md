@@ -21,7 +21,6 @@ Fetch feedback by id.
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -29,13 +28,11 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
     var feedbackID string = "<value>"
-
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Feedback.Get(ctx, feedbackID, xLog10Organization)
+    res, err := s.Feedback.Get(ctx, feedbackID, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -72,7 +69,6 @@ List feedback
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/operations"
 	"context"
@@ -81,13 +77,11 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
-    var xLog10Organization *string = log10go.String("<value>")
 
-    var requestBody *operations.ListRequestBody = &operations.ListRequestBody{}
     ctx := context.Background()
-    res, err := s.Feedback.List(ctx, xLog10Organization, requestBody)
+    res, err := s.Feedback.List(ctx, nil, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -124,7 +118,6 @@ Upload a piece of feedback
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/operations"
 	"context"
@@ -133,7 +126,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
     var requestBody operations.UploadRequestBody = operations.CreateUploadRequestBodyOne(
             operations.One{
@@ -148,10 +141,8 @@ func main() {
                 },
             },
     )
-
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Feedback.Upload(ctx, requestBody, xLog10Organization)
+    res, err := s.Feedback.Upload(ctx, requestBody, nil)
     if err != nil {
         log.Fatal(err)
     }

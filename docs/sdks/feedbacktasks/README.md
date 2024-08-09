@@ -21,7 +21,6 @@ List feedback tasks.
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -29,7 +28,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
     ctx := context.Background()
@@ -68,7 +67,6 @@ Create a new task.
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"context"
@@ -77,16 +75,11 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
-    var request *components.Task = &components.Task{
-        JSONSchema: components.JSONSchema{},
-        Name: "<value>",
-        Instruction: "<value>",
-        CompletionTagsSelector: components.CompletionTagsSelector{},
-    }
+
     ctx := context.Background()
-    res, err := s.FeedbackTasks.Create(ctx, request)
+    res, err := s.FeedbackTasks.Create(ctx, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -122,7 +115,6 @@ Retrieves feedback task `taskId`.
 package main
 
 import(
-	"os"
 	"github.com/log10-io/log10go"
 	"context"
 	"log"
@@ -130,7 +122,7 @@ import(
 
 func main() {
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
     var taskID string = "<value>"
     ctx := context.Background()
