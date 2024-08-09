@@ -36,16 +36,15 @@ import (
 	"context"
 	"github.com/log10-io/log10go"
 	"log"
-	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
-	var xLog10Organization *string = log10go.String("<value>")
+
 	ctx := context.Background()
-	res, err := s.Sessions.Create(ctx, xLog10Organization)
+	res, err := s.Sessions.Create(ctx, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -83,81 +82,6 @@ func main() {
 * [Get](docs/sdks/feedbacktasks/README.md#get) - Retrieves feedback task `taskId`.
 <!-- End Available Resources and Operations [operations] -->
 
-<!-- Start Global Parameters [global-parameters] -->
-## Global Parameters
-
-A parameter is configured globally. This parameter may be set on the SDK client instance itself during initialization. When configured as an option during SDK initialization, This global value will be used as the default on the operations that use it. When such operations are called, there is a place in each to override the global value, if needed.
-
-For example, you can set `X-Log10-Organization` to `"<value>"` at SDK initialization and then you do not have to pass the same value on calls to operations like `Update`. But if you want to do so you may, which will locally override the global setting. See the example code below for a demonstration.
-
-
-### Available Globals
-
-The following global parameter is available.
-
-| Name | Type | Required | Description |
-| ---- | ---- |:--------:| ----------- |
-| XLog10Organization | string |  | The XLog10Organization parameter. |
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"github.com/log10-io/log10go"
-	"github.com/log10-io/log10go/models/components"
-	"log"
-	"os"
-)
-
-func main() {
-	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-	)
-	var completionID string = "<value>"
-
-	completion := components.Completion{
-		OrganizationID: "<value>",
-		Request: &components.CreateChatCompletionRequest{
-			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestFunctionMessage(
-					components.ChatCompletionRequestFunctionMessage{
-						Role:    components.ChatCompletionRequestFunctionMessageRoleFunction,
-						Content: "<value>",
-						Name:    "<value>",
-					},
-				),
-			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
-			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
-		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Update(ctx, completionID, completion, xLog10Organization)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if res.Completion != nil {
-		// handle response
-	}
-}
-
-```
-<!-- End Global Parameters [global-parameters] -->
-
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
@@ -179,12 +103,11 @@ import (
 	"github.com/log10-io/log10go/models/components"
 	"github.com/log10-io/log10go/models/sdkerrors"
 	"log"
-	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -208,10 +131,8 @@ func main() {
 			User:        log10go.String("user-1234"),
 		},
 	}
-
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	res, err := s.Completions.Create(ctx, completion, nil)
 	if err != nil {
 
 		var e *sdkerrors.SDKError
@@ -246,13 +167,12 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
-	"os"
 )
 
 func main() {
 	s := log10go.New(
 		log10go.WithServerIndex(0),
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -276,10 +196,8 @@ func main() {
 			User:        log10go.String("user-1234"),
 		},
 	}
-
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	res, err := s.Completions.Create(ctx, completion, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -302,13 +220,12 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
-	"os"
 )
 
 func main() {
 	s := log10go.New(
 		log10go.WithServerURL("https://log10.io"),
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -332,10 +249,8 @@ func main() {
 			User:        log10go.String("user-1234"),
 		},
 	}
-
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	res, err := s.Completions.Create(ctx, completion, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -396,12 +311,11 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
-	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -425,10 +339,8 @@ func main() {
 			User:        log10go.String("user-1234"),
 		},
 	}
-
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	res, err := s.Completions.Create(ctx, completion, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -462,12 +374,11 @@ import (
 	"github.com/log10-io/log10go/retry"
 	"log"
 	"models/operations"
-	"os"
 )
 
 func main() {
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -491,10 +402,8 @@ func main() {
 			User:        log10go.String("user-1234"),
 		},
 	}
-
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization, operations.WithRetries(
+	res, err := s.Completions.Create(ctx, completion, nil, operations.WithRetries(
 		retry.Config{
 			Strategy: "backoff",
 			Backoff: &retry.BackoffStrategy{
@@ -525,7 +434,6 @@ import (
 	"github.com/log10-io/log10go/models/components"
 	"github.com/log10-io/log10go/retry"
 	"log"
-	"os"
 )
 
 func main() {
@@ -541,7 +449,7 @@ func main() {
 				},
 				RetryConnectionErrors: false,
 			}),
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
 	completion := components.Completion{
 		OrganizationID: "<value>",
@@ -565,10 +473,8 @@ func main() {
 			User:        log10go.String("user-1234"),
 		},
 	}
-
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	res, err := s.Completions.Create(ctx, completion, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

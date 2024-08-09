@@ -3,24 +3,24 @@ id: af921c1a-d48f-4ab5-a412-4cf4ba8a50ad
 management:
   docChecksum: 5e7cc152f137f5919734cc70b836a4d6
   docVersion: 1.0.0
-  speakeasyVersion: 1.337.1
-  generationVersion: 2.373.2
-  releaseVersion: 0.1.0
-  configChecksum: 54bb041d3948fb5a80cc757eac556e7b
+  speakeasyVersion: 1.358.0
+  generationVersion: 2.390.6
+  releaseVersion: 0.2.0
+  configChecksum: 9ff525599b23e18da63076f857eb128e
   repoURL: https://github.com/log10-io/log10go.git
   installationURL: https://github.com/log10-io/log10go
 features:
   go:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.1.4
-    core: 3.4.16
+    constsAndDefaults: 0.1.5
+    core: 3.5.3
     defaultEnabledRetries: 0.2.0
     deprecations: 2.81.1
-    envVarSecurityUsage: 0.2.0
+    envVarSecurityUsage: 0.3.0
     examples: 2.81.3
     flattening: 2.81.1
     getRequestBodies: 2.81.1
-    globalSecurity: 2.82.9
+    globalSecurity: 2.82.10
     globalSecurityCallbacks: 0.1.0
     globalSecurityFlattening: 0.1.0
     globalServerURLs: 2.82.2
