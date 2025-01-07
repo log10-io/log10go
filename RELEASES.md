@@ -9,3 +9,13 @@ Based on:
 - [go v0.1.0] .
 ### Releases
 - [Go v0.1.0] https://github.com/log10-io/log10go/releases/tag/v0.1.0 - .
+
+## 2025-01-07 00:13:55
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.463.1 (2.486.6) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [go v0.2.0] .
+### Releases
+- [Go v0.2.0] https://github.com/log10-io/log10go/releases/tag/v0.2.0 - .
