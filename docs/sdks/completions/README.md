@@ -21,43 +21,38 @@ Create a completion
 package main
 
 import(
-	"os"
+	"context"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
-	"context"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
-    completion := components.Completion{
-        OrganizationID: "<value>",
+
+    res, err := s.Completions.Create(ctx, components.Completion{
+        OrganizationID: "<id>",
         Request: &components.CreateChatCompletionRequest{
             Messages: []components.ChatCompletionRequestMessage{
-                components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-                    components.ChatCompletionRequestAssistantMessage{
-                        Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+                components.CreateChatCompletionRequestMessageChatCompletionRequestToolMessage(
+                    components.ChatCompletionRequestToolMessage{
+                        Role: components.ChatCompletionRequestToolMessageRoleTool,
+                        Content: "<value>",
+                        ToolCallID: "<id>",
                     },
                 ),
             },
-            Model: components.CreateModelTwo(
-            components.TwoGpt4Turbo,
+            Model: components.CreateModelStr(
+                "gpt-4-turbo",
             ),
-            N: log10go.Int64(1),
-            ResponseFormat: &components.ResponseFormat{
-                Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-            },
-            Temperature: log10go.Float64(1),
-            TopP: log10go.Float64(1),
+            ResponseFormat: &components.ResponseFormat{},
             User: log10go.String("user-1234"),
         },
-    }
-
-    var xLog10Organization *string = log10go.String("<value>")
-    ctx := context.Background()
-    res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+    }, log10go.String("<value>"))
     if err != nil {
         log.Fatal(err)
     }
@@ -76,13 +71,15 @@ func main() {
 | `xLog10Organization`                                           | **string*                                                      | :heavy_minus_sign:                                             | N/A                                                            |
 | `opts`                                                         | [][operations.Option](../../models/operations/option.md)       | :heavy_minus_sign:                                             | The options for this request.                                  |
 
-
 ### Response
 
 **[*operations.CreateResponse](../../models/operations/createresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
 
 ## Update
 
@@ -94,47 +91,67 @@ Update completion by id.
 package main
 
 import(
-	"os"
+	"context"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
-	"context"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var completionID string = "<value>"
+    ctx := context.Background()
 
-    completion := components.Completion{
-        OrganizationID: "<value>",
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Completions.Update(ctx, "<id>", components.Completion{
+        OrganizationID: "<id>",
         Request: &components.CreateChatCompletionRequest{
             Messages: []components.ChatCompletionRequestMessage{
-                components.CreateChatCompletionRequestMessageChatCompletionRequestFunctionMessage(
-                    components.ChatCompletionRequestFunctionMessage{
-                        Role: components.ChatCompletionRequestFunctionMessageRoleFunction,
-                        Content: "<value>",
-                        Name: "<value>",
+                components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
+                    components.ChatCompletionRequestAssistantMessage{
+                        Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+                    },
+                ),
+                components.CreateChatCompletionRequestMessageChatCompletionRequestUserMessage(
+                    components.ChatCompletionRequestUserMessage{
+                        Content: components.CreateContentArrayOfChatCompletionRequestMessageContentPart(
+                            []components.ChatCompletionRequestMessageContentPart{
+                                components.CreateChatCompletionRequestMessageContentPartChatCompletionRequestMessageContentPartText(
+                                    components.ChatCompletionRequestMessageContentPartText{
+                                        Type: components.TypeText,
+                                        Text: "<value>",
+                                    },
+                                ),
+                                components.CreateChatCompletionRequestMessageContentPartChatCompletionRequestMessageContentPartImage(
+                                    components.ChatCompletionRequestMessageContentPartImage{
+                                        Type: components.ChatCompletionRequestMessageContentPartImageTypeImageURL,
+                                        ImageURL: components.ImageURL{
+                                            URL: "https://unlucky-hydrolyze.biz/",
+                                        },
+                                    },
+                                ),
+                            },
+                        ),
+                        Role: components.ChatCompletionRequestUserMessageRoleUser,
+                    },
+                ),
+                components.CreateChatCompletionRequestMessageChatCompletionRequestUserMessage(
+                    components.ChatCompletionRequestUserMessage{
+                        Content: components.CreateContentStr(
+                            "<value>",
+                        ),
+                        Role: components.ChatCompletionRequestUserMessageRoleUser,
                     },
                 ),
             },
-            Model: components.CreateModelTwo(
-            components.TwoGpt4Turbo,
+            Model: components.CreateModelStr(
+                "gpt-4-turbo",
             ),
-            N: log10go.Int64(1),
-            ResponseFormat: &components.ResponseFormat{
-                Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-            },
-            Temperature: log10go.Float64(1),
-            TopP: log10go.Float64(1),
+            ResponseFormat: &components.ResponseFormat{},
             User: log10go.String("user-1234"),
         },
-    }
-
-    var xLog10Organization *string = log10go.String("<value>")
-    ctx := context.Background()
-    res, err := s.Completions.Update(ctx, completionID, completion, xLog10Organization)
+    }, log10go.String("<value>"))
     if err != nil {
         log.Fatal(err)
     }
@@ -154,13 +171,15 @@ func main() {
 | `xLog10Organization`                                           | **string*                                                      | :heavy_minus_sign:                                             | N/A                                                            |
 | `opts`                                                         | [][operations.Option](../../models/operations/option.md)       | :heavy_minus_sign:                                             | The options for this request.                                  |
 
-
 ### Response
 
 **[*operations.UpdateResponse](../../models/operations/updateresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
 
 ## ListUngraded
 
@@ -172,19 +191,19 @@ List ungraded completions i.e. completions that have not been associated with fe
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Completions.ListUngraded(ctx, xLog10Organization)
+
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Completions.ListUngraded(ctx, log10go.String("<value>"))
     if err != nil {
         log.Fatal(err)
     }
@@ -202,10 +221,12 @@ func main() {
 | `xLog10Organization`                                     | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
-
 ### Response
 
 **[*operations.ListUngradedResponse](../../models/operations/listungradedresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |

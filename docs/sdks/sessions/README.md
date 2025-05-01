@@ -19,19 +19,19 @@ Create a session
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Sessions.Create(ctx, xLog10Organization)
+
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Sessions.Create(ctx, log10go.String("<value>"))
     if err != nil {
         log.Fatal(err)
     }
@@ -49,10 +49,12 @@ func main() {
 | `xLog10Organization`                                     | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
-
 ### Response
 
 **[*operations.CreateSessionResponse](../../models/operations/createsessionresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
