@@ -10,3 +10,9 @@ targets:
     my-first-target:
         target: go
         source: default
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/log10/log10/default-go-code-samples
+            labelOverride:
+                fixedValue: Go (SDK)
+            blocking: false

@@ -16,9 +16,35 @@ It has been generated successfully based on your OpenAPI spec. However, it is no
 - [ ] 🎁 Publish your SDK to package managers by [configuring automatic publishing](https://www.speakeasyapi.dev/docs/advanced-setup/publish-sdks)
 - [ ] ✨ When ready to productionize, delete this section from the README
 
+<!-- Start Summary [summary] -->
+## Summary
+
+Log10 Feedback API Spec: Log10 Feedback API Spec
+<!-- End Summary [summary] -->
+
+<!-- Start Table of Contents [toc] -->
+## Table of Contents
+<!-- $toc-max-depth=2 -->
+* [github.com/log10-io/log10go](#githubcomlog10-iolog10go)
+  * [🏗 **Welcome to your new SDK!** 🏗](#welcome-to-your-new-sdk)
+  * [SDK Installation](#sdk-installation)
+  * [SDK Example Usage](#sdk-example-usage)
+  * [Available Resources and Operations](#available-resources-and-operations)
+  * [Error Handling](#error-handling)
+  * [Server Selection](#server-selection)
+  * [Custom HTTP Client](#custom-http-client)
+  * [Authentication](#authentication)
+  * [Retries](#retries)
+* [Development](#development)
+  * [Maturity](#maturity)
+  * [Contributions](#contributions)
+
+<!-- End Table of Contents [toc] -->
+
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
 
+To add the SDK as a dependency to your project:
 ```bash
 go get github.com/log10-io/log10go
 ```
@@ -36,16 +62,16 @@ import (
 	"context"
 	"github.com/log10-io/log10go"
 	"log"
-	"os"
 )
 
 func main() {
-	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-	)
-	var xLog10Organization *string = log10go.String("<value>")
 	ctx := context.Background()
-	res, err := s.Sessions.Create(ctx, xLog10Organization)
+
+	s := log10go.New(
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+	)
+
+	res, err := s.Sessions.Create(ctx, log10go.String("<value>"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,15 +86,14 @@ func main() {
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
 
+<details open>
+<summary>Available methods</summary>
+
 ### [Completions](docs/sdks/completions/README.md)
 
 * [Create](docs/sdks/completions/README.md#create) - Create a completion
 * [Update](docs/sdks/completions/README.md#update) - Update completion by id.
 * [ListUngraded](docs/sdks/completions/README.md#listungraded) - List ungraded completions i.e. completions that have not been associated with feedback but matches task selector.
-
-### [Sessions](docs/sdks/sessions/README.md)
-
-* [Create](docs/sdks/sessions/README.md#create) - Create a session
 
 ### [Feedback](docs/sdks/feedback/README.md)
 
@@ -81,91 +106,27 @@ func main() {
 * [List](docs/sdks/feedbacktasks/README.md#list) - List feedback tasks.
 * [Create](docs/sdks/feedbacktasks/README.md#create) - Create a new task.
 * [Get](docs/sdks/feedbacktasks/README.md#get) - Retrieves feedback task `taskId`.
+
+
+### [Sessions](docs/sdks/sessions/README.md)
+
+* [Create](docs/sdks/sessions/README.md#create) - Create a session
+
+</details>
 <!-- End Available Resources and Operations [operations] -->
-
-<!-- Start Global Parameters [global-parameters] -->
-## Global Parameters
-
-A parameter is configured globally. This parameter may be set on the SDK client instance itself during initialization. When configured as an option during SDK initialization, This global value will be used as the default on the operations that use it. When such operations are called, there is a place in each to override the global value, if needed.
-
-For example, you can set `X-Log10-Organization` to `"<value>"` at SDK initialization and then you do not have to pass the same value on calls to operations like `Update`. But if you want to do so you may, which will locally override the global setting. See the example code below for a demonstration.
-
-
-### Available Globals
-
-The following global parameter is available.
-
-| Name | Type | Required | Description |
-| ---- | ---- |:--------:| ----------- |
-| XLog10Organization | string |  | The XLog10Organization parameter. |
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"github.com/log10-io/log10go"
-	"github.com/log10-io/log10go/models/components"
-	"log"
-	"os"
-)
-
-func main() {
-	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-	)
-	var completionID string = "<value>"
-
-	completion := components.Completion{
-		OrganizationID: "<value>",
-		Request: &components.CreateChatCompletionRequest{
-			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestFunctionMessage(
-					components.ChatCompletionRequestFunctionMessage{
-						Role:    components.ChatCompletionRequestFunctionMessageRoleFunction,
-						Content: "<value>",
-						Name:    "<value>",
-					},
-				),
-			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
-			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
-		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Update(ctx, completionID, completion, xLog10Organization)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if res.Completion != nil {
-		// handle response
-	}
-}
-
-```
-<!-- End Global Parameters [global-parameters] -->
 
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-Handling errors in this SDK should largely match your expectations.  All operations return a response object or an error, they will never return both.  When specified by the OpenAPI spec document, the SDK will return the appropriate subclass.
+Handling errors in this SDK should largely match your expectations. All operations return a response object or an error, they will never return both.
 
-| Error Object       | Status Code        | Content Type       |
-| ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+By Default, an API error will return `sdkerrors.SDKError`. When custom error responses are specified for an operation, the SDK may also return their associated error. You can refer to respective *Errors* tables in SDK docs for more details on possible error types for each operation.
+
+For example, the `Create` function may return the following errors:
+
+| Error Type         | Status Code | Content Type |
+| ------------------ | ----------- | ------------ |
+| sdkerrors.SDKError | 4XX, 5XX    | \*/\*        |
 
 ### Example
 
@@ -179,39 +140,34 @@ import (
 	"github.com/log10-io/log10go/models/components"
 	"github.com/log10-io/log10go/models/sdkerrors"
 	"log"
-	"os"
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
-	completion := components.Completion{
-		OrganizationID: "<value>",
+
+	res, err := s.Completions.Create(ctx, components.Completion{
+		OrganizationID: "<id>",
 		Request: &components.CreateChatCompletionRequest{
 			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-					components.ChatCompletionRequestAssistantMessage{
-						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+				components.CreateChatCompletionRequestMessageChatCompletionRequestToolMessage(
+					components.ChatCompletionRequestToolMessage{
+						Role:       components.ChatCompletionRequestToolMessageRoleTool,
+						Content:    "<value>",
+						ToolCallID: "<id>",
 					},
 				),
 			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
+			Model: components.CreateModelStr(
+				"gpt-4-turbo",
 			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
+			ResponseFormat: &components.ResponseFormat{},
+			User:           log10go.String("user-1234"),
 		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	}, log10go.String("<value>"))
 	if err != nil {
 
 		var e *sdkerrors.SDKError
@@ -228,72 +184,9 @@ func main() {
 <!-- Start Server Selection [server] -->
 ## Server Selection
 
-### Select Server by Index
-
-You can override the default server globally using the `WithServerIndex` option when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
-
-| # | Server | Variables |
-| - | ------ | --------- |
-| 0 | `https://log10.io` | None |
-
-#### Example
-
-```go
-package main
-
-import (
-	"context"
-	"github.com/log10-io/log10go"
-	"github.com/log10-io/log10go/models/components"
-	"log"
-	"os"
-)
-
-func main() {
-	s := log10go.New(
-		log10go.WithServerIndex(0),
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-	)
-	completion := components.Completion{
-		OrganizationID: "<value>",
-		Request: &components.CreateChatCompletionRequest{
-			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-					components.ChatCompletionRequestAssistantMessage{
-						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
-					},
-				),
-			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
-			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
-		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if res.Any != nil {
-		// handle response
-	}
-}
-
-```
-
-
 ### Override Server URL Per-Client
 
-The default server can also be overridden globally using the `WithServerURL` option when initializing the SDK client instance. For example:
+The default server can be overridden globally using the `WithServerURL(serverURL string)` option when initializing the SDK client instance. For example:
 ```go
 package main
 
@@ -302,40 +195,35 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
-	"os"
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := log10go.New(
 		log10go.WithServerURL("https://log10.io"),
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
-	completion := components.Completion{
-		OrganizationID: "<value>",
+
+	res, err := s.Completions.Create(ctx, components.Completion{
+		OrganizationID: "<id>",
 		Request: &components.CreateChatCompletionRequest{
 			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-					components.ChatCompletionRequestAssistantMessage{
-						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+				components.CreateChatCompletionRequestMessageChatCompletionRequestToolMessage(
+					components.ChatCompletionRequestToolMessage{
+						Role:       components.ChatCompletionRequestToolMessageRoleTool,
+						Content:    "<value>",
+						ToolCallID: "<id>",
 					},
 				),
 			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
+			Model: components.CreateModelStr(
+				"gpt-4-turbo",
 			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
+			ResponseFormat: &components.ResponseFormat{},
+			User:           log10go.String("user-1234"),
 		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	}, log10go.String("<value>"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -383,9 +271,9 @@ This can be a convenient way to configure timeouts, cookies, proxies, custom hea
 
 This SDK supports the following security scheme globally:
 
-| Name         | Type         | Scheme       |
-| ------------ | ------------ | ------------ |
-| `Log10Token` | apiKey       | API key      |
+| Name         | Type   | Scheme  |
+| ------------ | ------ | ------- |
+| `Log10Token` | apiKey | API key |
 
 You can configure it using the `WithSecurity` option when initializing the SDK client instance. For example:
 ```go
@@ -396,39 +284,34 @@ import (
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/components"
 	"log"
-	"os"
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
-	completion := components.Completion{
-		OrganizationID: "<value>",
+
+	res, err := s.Completions.Create(ctx, components.Completion{
+		OrganizationID: "<id>",
 		Request: &components.CreateChatCompletionRequest{
 			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-					components.ChatCompletionRequestAssistantMessage{
-						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+				components.CreateChatCompletionRequestMessageChatCompletionRequestToolMessage(
+					components.ChatCompletionRequestToolMessage{
+						Role:       components.ChatCompletionRequestToolMessageRoleTool,
+						Content:    "<value>",
+						ToolCallID: "<id>",
 					},
 				),
 			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
+			Model: components.CreateModelStr(
+				"gpt-4-turbo",
 			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
+			ResponseFormat: &components.ResponseFormat{},
+			User:           log10go.String("user-1234"),
 		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	}, log10go.String("<value>"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -439,12 +322,6 @@ func main() {
 
 ```
 <!-- End Authentication [security] -->
-
-<!-- Start Special Types [types] -->
-## Special Types
-
-
-<!-- End Special Types [types] -->
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -462,39 +339,34 @@ import (
 	"github.com/log10-io/log10go/retry"
 	"log"
 	"models/operations"
-	"os"
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := log10go.New(
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
-	completion := components.Completion{
-		OrganizationID: "<value>",
+
+	res, err := s.Completions.Create(ctx, components.Completion{
+		OrganizationID: "<id>",
 		Request: &components.CreateChatCompletionRequest{
 			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-					components.ChatCompletionRequestAssistantMessage{
-						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+				components.CreateChatCompletionRequestMessageChatCompletionRequestToolMessage(
+					components.ChatCompletionRequestToolMessage{
+						Role:       components.ChatCompletionRequestToolMessageRoleTool,
+						Content:    "<value>",
+						ToolCallID: "<id>",
 					},
 				),
 			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
+			Model: components.CreateModelStr(
+				"gpt-4-turbo",
 			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
+			ResponseFormat: &components.ResponseFormat{},
+			User:           log10go.String("user-1234"),
 		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization, operations.WithRetries(
+	}, log10go.String("<value>"), operations.WithRetries(
 		retry.Config{
 			Strategy: "backoff",
 			Backoff: &retry.BackoffStrategy{
@@ -525,10 +397,11 @@ import (
 	"github.com/log10-io/log10go/models/components"
 	"github.com/log10-io/log10go/retry"
 	"log"
-	"os"
 )
 
 func main() {
+	ctx := context.Background()
+
 	s := log10go.New(
 		log10go.WithRetryConfig(
 			retry.Config{
@@ -541,34 +414,28 @@ func main() {
 				},
 				RetryConnectionErrors: false,
 			}),
-		log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+		log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
 	)
-	completion := components.Completion{
-		OrganizationID: "<value>",
+
+	res, err := s.Completions.Create(ctx, components.Completion{
+		OrganizationID: "<id>",
 		Request: &components.CreateChatCompletionRequest{
 			Messages: []components.ChatCompletionRequestMessage{
-				components.CreateChatCompletionRequestMessageChatCompletionRequestAssistantMessage(
-					components.ChatCompletionRequestAssistantMessage{
-						Role: components.ChatCompletionRequestAssistantMessageRoleAssistant,
+				components.CreateChatCompletionRequestMessageChatCompletionRequestToolMessage(
+					components.ChatCompletionRequestToolMessage{
+						Role:       components.ChatCompletionRequestToolMessageRoleTool,
+						Content:    "<value>",
+						ToolCallID: "<id>",
 					},
 				),
 			},
-			Model: components.CreateModelTwo(
-				components.TwoGpt4Turbo,
+			Model: components.CreateModelStr(
+				"gpt-4-turbo",
 			),
-			N: log10go.Int64(1),
-			ResponseFormat: &components.ResponseFormat{
-				Type: components.CreateChatCompletionRequestTypeJSONObject.ToPointer(),
-			},
-			Temperature: log10go.Float64(1),
-			TopP:        log10go.Float64(1),
-			User:        log10go.String("user-1234"),
+			ResponseFormat: &components.ResponseFormat{},
+			User:           log10go.String("user-1234"),
 		},
-	}
-
-	var xLog10Organization *string = log10go.String("<value>")
-	ctx := context.Background()
-	res, err := s.Completions.Create(ctx, completion, xLog10Organization)
+	}, log10go.String("<value>"))
 	if err != nil {
 		log.Fatal(err)
 	}

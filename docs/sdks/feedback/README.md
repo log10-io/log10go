@@ -21,21 +21,19 @@ Fetch feedback by id.
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var feedbackID string = "<value>"
-
-    var xLog10Organization *string = log10go.String("<value>")
     ctx := context.Background()
-    res, err := s.Feedback.Get(ctx, feedbackID, xLog10Organization)
+
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Feedback.Get(ctx, "<id>", log10go.String("<value>"))
     if err != nil {
         log.Fatal(err)
     }
@@ -54,13 +52,15 @@ func main() {
 | `xLog10Organization`                                     | **string*                                                | :heavy_minus_sign:                                       | N/A                                                      |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
-
 ### Response
 
 **[*operations.GetResponse](../../models/operations/getresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
 
 ## List
 
@@ -72,22 +72,19 @@ List feedback
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
-	"github.com/log10-io/log10go/models/operations"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var xLog10Organization *string = log10go.String("<value>")
-
-    var requestBody *operations.ListRequestBody = &operations.ListRequestBody{}
     ctx := context.Background()
-    res, err := s.Feedback.List(ctx, xLog10Organization, requestBody)
+
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.Feedback.List(ctx, log10go.String("<value>"), nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -106,13 +103,15 @@ func main() {
 | `requestBody`                                                             | [*operations.ListRequestBody](../../models/operations/listrequestbody.md) | :heavy_minus_sign:                                                        | N/A                                                                       |
 | `opts`                                                                    | [][operations.Option](../../models/operations/option.md)                  | :heavy_minus_sign:                                                        | The options for this request.                                             |
 
-
 ### Response
 
 **[*operations.ListResponse](../../models/operations/listresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
 
 ## Upload
 
@@ -124,34 +123,33 @@ Upload a piece of feedback
 package main
 
 import(
-	"os"
+	"context"
 	"github.com/log10-io/log10go"
 	"github.com/log10-io/log10go/models/operations"
-	"context"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var requestBody operations.UploadRequestBody = operations.CreateUploadRequestBodyOne(
-            operations.One{
-                TaskID: "<value>",
-                JSONValues: operations.JSONValues{},
-                MatchedCompletionIds: []string{
-                    "<value>",
-                },
-                Comment: "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-                CompletionTagsSelector: []string{
-                    "<value>",
-                },
-            },
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    var xLog10Organization *string = log10go.String("<value>")
-    ctx := context.Background()
-    res, err := s.Feedback.Upload(ctx, requestBody, xLog10Organization)
+    res, err := s.Feedback.Upload(ctx, operations.CreateUploadRequestBodyOne(
+        operations.One{
+            TaskID: "<id>",
+            JSONValues: operations.JSONValues{},
+            MatchedCompletionIds: []string{
+                "<value>",
+                "<value>",
+            },
+            Comment: "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
+            CompletionTagsSelector: []string{
+                "<value>",
+            },
+        },
+    ), log10go.String("<value>"))
     if err != nil {
         log.Fatal(err)
     }
@@ -170,10 +168,12 @@ func main() {
 | `xLog10Organization`                                                         | **string*                                                                    | :heavy_minus_sign:                                                           | N/A                                                                          |
 | `opts`                                                                       | [][operations.Option](../../models/operations/option.md)                     | :heavy_minus_sign:                                                           | The options for this request.                                                |
 
-
 ### Response
 
 **[*operations.UploadResponse](../../models/operations/uploadresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |

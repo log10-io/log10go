@@ -21,18 +21,18 @@ List feedback tasks.
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
+    ctx := context.Background()
+
     s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
     )
 
-    ctx := context.Background()
     res, err := s.FeedbackTasks.List(ctx)
     if err != nil {
         log.Fatal(err)
@@ -50,13 +50,15 @@ func main() {
 | `ctx`                                                    | [context.Context](https://pkg.go.dev/context#Context)    | :heavy_check_mark:                                       | The context to use for the request.                      |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
-
 ### Response
 
 **[*operations.ListFeedbackTasksResponse](../../models/operations/listfeedbacktasksresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
 
 ## Create
 
@@ -68,25 +70,19 @@ Create a new task.
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
-	"github.com/log10-io/log10go/models/components"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var request *components.Task = &components.Task{
-        JSONSchema: components.JSONSchema{},
-        Name: "<value>",
-        Instruction: "<value>",
-        CompletionTagsSelector: components.CompletionTagsSelector{},
-    }
     ctx := context.Background()
-    res, err := s.FeedbackTasks.Create(ctx, request)
+
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.FeedbackTasks.Create(ctx, nil)
     if err != nil {
         log.Fatal(err)
     }
@@ -104,13 +100,15 @@ func main() {
 | `request`                                                | [components.Task](../../models/components/task.md)       | :heavy_check_mark:                                       | The request object to use for the request.               |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
-
 ### Response
 
 **[*operations.CreateFeedbackTaskResponse](../../models/operations/createfeedbacktaskresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
 
 ## Get
 
@@ -122,19 +120,19 @@ Retrieves feedback task `taskId`.
 package main
 
 import(
-	"os"
-	"github.com/log10-io/log10go"
 	"context"
+	"github.com/log10-io/log10go"
 	"log"
 )
 
 func main() {
-    s := log10go.New(
-        log10go.WithSecurity(os.Getenv("LOG10_TOKEN")),
-    )
-    var taskID string = "<value>"
     ctx := context.Background()
-    res, err := s.FeedbackTasks.Get(ctx, taskID)
+
+    s := log10go.New(
+        log10go.WithSecurity("<YOUR_API_KEY_HERE>"),
+    )
+
+    res, err := s.FeedbackTasks.Get(ctx, "<id>")
     if err != nil {
         log.Fatal(err)
     }
@@ -152,10 +150,12 @@ func main() {
 | `taskID`                                                 | *string*                                                 | :heavy_check_mark:                                       | The task id to fetch.                                    |
 | `opts`                                                   | [][operations.Option](../../models/operations/option.md) | :heavy_minus_sign:                                       | The options for this request.                            |
 
-
 ### Response
 
 **[*operations.GetFeedbackTaskResponse](../../models/operations/getfeedbacktaskresponse.md), error**
-| Error Object       | Status Code        | Content Type       |
+
+### Errors
+
+| Error Type         | Status Code        | Content Type       |
 | ------------------ | ------------------ | ------------------ |
-| sdkerrors.SDKError | 4xx-5xx            | */*                |
+| sdkerrors.SDKError | 4XX, 5XX           | \*/\*              |
